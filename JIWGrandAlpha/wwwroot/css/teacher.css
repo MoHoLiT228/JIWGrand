@@ -1,0 +1,137 @@
+.teacher-row-class {
+    display: flex;
+}
+
+.select2-container--below {
+    height: 28px;
+}
+
+.teacher-row-cell {
+    display: flex;
+}
+
+.teacher-row-class .select2-container {
+    min-width: 205px;
+}
+
+.teacher-row-cell .select2-container {
+    min-width: 130px;
+}
+
+.editclass-input {
+    min-width: 105px;
+    max-width: 105px;
+}
+
+.editcell-input {
+    min-width: 130px;
+    max-width: 130px;
+}
+
+.div-table {
+    overflow-x: auto;
+    white-space: nowrap;
+    position: absolute;
+    min-width: 80%;
+    top: 10%;
+    left: 50%;
+    border-radius: 15px;
+    border-width: 0px;
+    border-style: solid;
+    transform: translate(-50%,0);
+}
+
+.border-table {
+    overflow-x: auto;
+    white-space: nowrap;
+    width: min-content;
+    border-radius: 15px;
+    border-width: 1px;
+    border-color: white;
+    border-style: solid;
+}
+
+.custom-table {
+    border-collapse: collapse;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+    .custom-table p {
+        padding: 0px;
+        margin: 0px;
+    }
+
+    .custom-table th, td {
+        text-align: center;
+        padding: 2px;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: #fff;
+    }
+
+    .custom-table th {
+        text-align: left;
+    }
+
+    .custom-table thead .th-date {
+        writing-mode: vertical-lr;
+        transform: scale(-1);
+    }
+
+    .custom-table thead th {
+        text-align: center;
+        background-color: rgb(121,142,159);
+        border: 1px solid white;
+        border-top: unset;
+    }
+
+    .custom-table tbody tr:hover {
+        background-color: rgba(0, 0, 0, 0.3);
+    }
+
+    .custom-table tbody td {
+        position: relative;
+        border: 1px solid white;
+        border-bottom: unset;
+    }
+
+        .custom-table tbody td:hover:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: -9999px;
+            bottom: -9999px;
+            background-color: rgba(0, 0, 0, 0.2);
+            z-index: -1;
+        }
+
+.modal-dialog {
+    min-width: 250px;
+    max-width: 350px;
+    border-radius: 0px;
+}
+
+.modal-dialog .u-btn {
+    margin-bottom: 0px;
+    padding: 10px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.modal-backdrop {
+    display: none;
+}
+
+.modal-header {
+    border-bottom: 1px solid lightgray;
+}
+
+.modal-footer {
+    border-top: 1px solid lightgray;
+}
+
+.modal-content {
+    border-radius: 20px;
+}
+

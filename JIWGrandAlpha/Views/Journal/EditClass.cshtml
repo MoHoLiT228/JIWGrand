@@ -1,0 +1,45 @@
+﻿@model JIWGrandAlpha.Domain.ViewModels.Class.ClassViewModel
+<form>
+    <input asp-for="Id" hidden />
+    <input asp-for="IdObject" hidden />
+    <input asp-for="IdGroup" hidden />
+    <div class="teacher-row-class">
+        <label class="editclass-label" asp-for="@Model.Date1" class="col-form-label"></label>
+        <div style="min-width: 56%;"></div>
+        <input class="editclass-input" type="date" class="form-control" asp-for="@Model.Date1">
+    </div>
+    <div style="margin: 5px;"></div>
+    <div class="teacher-row-class">
+        <label class="editclass-label" asp-for="@Model.Type" class="col-form-label"></label>
+        <div style="min-width: 27%;"></div>
+        <select class="form-control" id="classType">
+            <option value="@Model.Type">@Model.Type</option>
+        </select>
+    </div>
+</form>
+
+<script src="~/lib/select2/js/select2.full.min.js"></script>
+<script>
+    $('#classType').select2({
+        minimumResultsForSearch: -1,
+        placeholder: "Выберите тип",
+        dropdownParent: $("#modalClass"),
+        minimumInputLength: 0,
+        allowClear: true,
+        ajax: {
+            type: "POST",
+            url: "@Url.Action("GetClassTypes", "Journal")",
+            dataType: "json",
+            processResults: function (result) {
+                return {
+                    results: $.map(result, function (val, index) {
+                        return {
+                            id: index,
+                            text: val
+                        };
+                    }),
+                };
+            }
+        }
+    });
+</script>

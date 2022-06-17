@@ -1,0 +1,142 @@
+﻿@using JIWGrandAlpha.Domain.Enum
+@using JIWGrandAlpha.Domain.Entity
+@using JIWGrandAlpha.Helpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model JIWGrandAlpha.Domain.ViewModels.Journal.JStudentViewModel
+@{
+    ViewData["Title"] = "Электронный журнал";
+}
+<link rel="stylesheet" href="~/css/student.css" asp-append-version="true" />
+<div class="div-table">
+    <div class="border-table">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th></th>
+                    @foreach (var date in Model.Dates)
+                    {
+                        <th class="th-date">@date.ToString("dd.MM")</th>
+                    }
+                    <th class="th-date">Ср. балл</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var _object in Model.Objects)
+                {
+                    float? avr = 0;
+                    int cnt = 0;
+                    <tr>
+                        <td>@_object.Title</td>
+                        @foreach (var date in Model.Dates)
+                        {
+                            var classes = _object.Classes.Where(x => x.Date1 == date);
+                            if (classes != null)
+                            {
+                                int count = 0;
+                                foreach (var clas in classes)
+                                {
+                                    if (clas.Cell != null)
+                                    {
+                                        if (clas.Cell.Type == TypeValue.Оценка)
+                                        {
+                                            avr += clas.Cell.Value;
+                                            cnt++;
+                                        }
+                                        count++;
+                                    }
+                                }
+                                switch (count)
+                                {
+                                    case 1:
+                                        {
+                                            Class clas = classes.First();
+                                            Cell cell = clas.Cell;
+                                            <td title="@clas.Type.ToString()">
+                                                @CellHelper.Type(cell)
+                                            </td>
+                                            break;
+                                        }
+                                    case 2:
+                                        {
+                                            var temp = classes.Where(x => x.Cell != null).ToList();
+                                            <td>
+                                                <table>
+                                                    <tr>
+                                                        <td title="@temp[0].Type.ToString()">
+                                                            @CellHelper.Type(temp[0].Cell)
+
+                                                        </td>
+                                                        <td title="@temp[1].Type.ToString()">
+                                                            @CellHelper.Type(temp[1].Cell)
+
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            break;
+                                        }
+                                    case 3:
+                                        {
+                                            var temp = classes.Where(x => x.Cell != null).ToList();
+                                            <td>
+                                                <table>
+                                                    <tr>
+                                                        <td title="@temp[0].Type.ToString()">
+                                                            @CellHelper.Type(temp[0].Cell)
+                                                        </td>
+                                                        <td title="@temp[1].Type.ToString()">
+                                                            @CellHelper.Type(temp[1].Cell)
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td title="@temp[2].Type.ToString()">
+                                                            @CellHelper.Type(temp[2].Cell)
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            break;
+                                        }
+                                    case 4:
+                                        {
+                                            var temp = classes.Where(x => x.Cell != null).ToList();
+                                            <td>
+                                                <table>
+                                                    <tr>
+                                                        <td title="@temp[0].Type.ToString()">
+                                                            @CellHelper.Type(temp[0].Cell)
+                                                        </td>
+                                                        <td title="@temp[1].Type.ToString()">
+                                                            @CellHelper.Type(temp[1].Cell)
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td title="@temp[2].Type.ToString()">
+                                                            @CellHelper.Type(temp[2].Cell)
+                                                        </td>
+                                                        <td title="@temp[3].Type.ToString()">
+                                                            @CellHelper.Type(temp[3].Cell)
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            break;
+                                        }
+                                    default:
+                                        <td></td>
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+
+                        }
+                        <td>@(cnt != 0 ? avr / cnt : "")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

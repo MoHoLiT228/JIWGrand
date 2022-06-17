@@ -1,0 +1,92 @@
+﻿@using JIWGrandAlpha.Domain.Enum
+@model JIWGrandAlpha.Domain.ViewModels.Cell.CellViewModel
+<form>
+    <input asp-for="Id" hidden />
+    <input asp-for="IdClass" hidden />
+    <input asp-for="IdStudent" hidden />
+    <div class="teacher-row-cell">
+        <label asp-for="@Model.Value" class="col-form-label"></label>
+        <div style="min-width: 37%;"></div>
+        @if (Model.Type != TypeValue.Отсуствие)
+        {
+            <input required id="cellInput" type="text" class="editcell-input form-control" asp-for="@Model.Value">
+        }
+        else
+        {
+            <input id="cellInput" type="text" disabled="disabled" class="editcell-input form-control" asp-for="@Model.Value">
+        }
+    </div>
+    <div style="margin: 5px;"></div>
+    <div class="teacher-row-cell">
+        <label asp-for="@Model.Type" class="col-form-label"></label>
+        <div style="min-width: 51%;"></div>
+        <select class="form-control" id="cellType">
+            <option value="@Convert.ToInt32(Model.Type)">@Model.Type</option>
+        </select>
+    </div>
+</form>
+
+<script src="~/lib/select2/js/select2.full.min.js"></script>
+<script>
+    $('#cellType').select2({
+        minimumResultsForSearch: -1,
+        placeholder: "Выберите тип",
+        dropdownParent: $("#modalCell"),
+        minimumInputLength: 0,
+        allowClear: true,
+        ajax: {
+            type: "POST",
+            url: "@Url.Action("GetCellTypes", "Journal")",
+            dataType: "json",
+            processResults: function (result) {
+                return {
+                    results: $.map(result, function (val, index) {
+                        return {
+                            id: index,
+                            text: val
+                        };
+                    }),
+                };
+            }
+        }
+    });
+
+    $('#cellType').on('select2:select',
+        function(e) {
+            if (e.params.data.text == 'Отсуствие') {
+                $("#cellInput").val('');
+                $("#cellInput").prop('disabled', true);
+            }
+            else {
+                $("#cellInput").prop('disabled', false);
+            }
+        });
+
+    $('#cellInput').on('input',
+        function() {
+            if($('#cellType').val()=='0')
+            {
+                var max = 10;
+                var min = 0;
+                }
+            else{
+                var max = 89;
+                var min = 1;
+                }
+
+            if ($(this).val().match(/[^0-9]/g))
+                $(this).val($(this).val().replace(/[^0-9]/g, ''));
+            
+            if ($(this).val() > max)
+            {
+                $(this).val(max);
+            }
+            if ($(this).val() < min)
+            {
+                $(this).val(min);
+            }
+            if ($(this).val() == 0) {
+                $(this).val(min);
+            }
+        });
+</script>

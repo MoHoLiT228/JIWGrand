@@ -1,0 +1,49 @@
+﻿@model JIWGrandAlpha.Domain.ViewModels.User.StudentViewModel
+@{
+    ViewData["Title"] = "Вход для студента";
+}
+<link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
+<div class="login-back">
+    <form id="login" method="post" asp-controller="Account" asp-action="Login">
+        <h5 class="login-h5">Вход для студента</h5>
+
+        <input class="login-lastname" asp-for="Lastname" placeholder="Фамилия" type="text">
+
+        <select style="width: 340px;" required asp-for="@Model.IdGroup" class="form-control" id="groupId"></select>
+
+        <input class="login-date" asp-for="Birthday" placeholder="Дата рождения" type="text">
+
+        <a class="u-btn" onclick="submit()">Войти</a>
+    </form>
+</div>
+
+@section Scripts
+{
+<script>
+    function submit() {
+            document.getElementById("login").submit();
+        }
+    $('#groupId').select2({
+            placeholder: "Выберите группу",
+            ajax: {
+                type: "POST",
+                url: "@Url.Action("GetGroups", "Account")",
+                dataType: "json",
+                processResults:
+                    function(result) {
+                        console.log(result);
+                        return {
+                            results: $.map(result,
+                                function(val, index) {
+                                    return {
+                                        id: index,
+                                        text: val
+                                    };
+                                })
+                        };
+                    }
+            }
+
+        });
+</script>
+}

@@ -1,0 +1,52 @@
+﻿.login-back {
+    position: absolute;
+    min-width: 360px;
+    max-width: 420px;
+    min-height: 240px;
+    top: 50%;
+    left: 50%;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    border-width: 1px;
+    border-style: solid;
+    transform: translate(-50%,-70%);
+    text-align: center;
+}
+
+.login-h5 {
+    position: relative;
+    top: 14px;
+    color: black;
+    text-shadow: 0 0 8px rgb(128 128 128);
+    font-size: 2rem;
+    line-height: 1.2;
+    font-weight: 600;
+    font-family: Oswald, sans-serif;
+    padding: 0 0 20px 0;
+}
+
+.login-lastname {
+    margin: 20px auto 20px;
+    width: 340px;
+    height: 24px;
+    border: 1px solid #aaa;
+    text-align: center;
+    border-radius: 4px;
+}
+
+    .login-lastname::-webkit-input-placeholder {
+        text-align: center;
+    }
+
+.login-date {
+    margin: 20px auto;
+    width: 340px;
+    height: 24px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    text-align: center;
+}
+
+    .login-date::-webkit-input-placeholder {
+        text-align: center;
+    }

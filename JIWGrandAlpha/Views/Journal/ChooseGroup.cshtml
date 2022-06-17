@@ -1,0 +1,12 @@
+﻿@model JIWGrandAlpha.Domain.ViewModels.Journal.JTeacherViewModel
+@{
+    ViewData["Title"] = "Выбор группы";
+}
+<link rel="stylesheet" href="~/css/choose.css" asp-append-version="true" />
+
+<div class="choose-back">
+    @foreach (var item in Model.Groups)
+    {
+        <a class="u-btn" asp-action="ChooseObject" asp-route-idGroup=@item.Id asp-controller="Journal">@item.Title</a>
+    }
+</div>      

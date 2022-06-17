@@ -1,0 +1,38 @@
+﻿.loginT-back {
+    position: absolute;
+    min-width: 360px;
+    max-width: 420px;
+    min-height: 240px;
+    top: 50%;
+    left: 50%;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    border-width: 1px;
+    border-style: solid;
+    transform: translate(-50%,-70%);
+    text-align: center;
+}
+
+.loginT-h5 {
+    position: relative;
+    top: 14px;
+    color: black;
+    text-shadow: 0 0 8px rgb(128 128 128);
+    font-size: 2rem;
+    line-height: 1.2;
+    font-weight: 600;
+    font-family: Oswald, sans-serif;
+    padding: 0 0 40px 0;
+}
+
+.loginT-pass {
+    margin: 20px auto;
+    width: 340px;
+    height: 24px;
+    border-radius: 4px;
+    text-align: center;
+    border: 1px solid #aaa;
+}
+    .loginT-pass::-webkit-input-placeholder {
+        text-align: center;
+    }

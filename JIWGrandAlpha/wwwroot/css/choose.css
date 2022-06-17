@@ -1,0 +1,20 @@
+.choose-back {
+    position: absolute;
+    min-width: 130px;
+    min-height: 86px;
+    top: 40%;
+    left: 50%;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    border-width: 1px;
+    border-style: solid;
+    transform: translate(-50%,-50%);
+    text-align: center;
+    display: flex;
+}
+
+.choose-back .u-btn {
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+}

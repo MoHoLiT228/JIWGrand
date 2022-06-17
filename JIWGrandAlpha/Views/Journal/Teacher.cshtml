@@ -1,0 +1,173 @@
+﻿@using JIWGrandAlpha.Domain.Entity
+@using JIWGrandAlpha.Domain.Enum
+@using JIWGrandAlpha.Domain.ViewModels.Cell
+@using JIWGrandAlpha.Helpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model JIWGrandAlpha.Domain.ViewModels.Journal.JTeacherViewModel
+@{
+    ViewData["Title"] = "Электронный журнал";
+}
+<link rel="stylesheet" href="~/css/teacher.css" asp-append-version="true" />
+
+<div class="div-table">
+    <div class="border-table">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th onclick="openModal({ url: '/Journal/EditClass', type: 'Class', id: '0', idObject: '@Model.idObject', idGroup: '@Model.idGroup' })">Добавить пару</th>
+                    @foreach (var clas in Model.Classes)
+                    {
+                        <th class="th-date" title="@clas.Type.ToString()" onclick="openModal({ url: '/Journal/EditClass', type: 'Class', id: '@clas.Id' })">@clas.Date1.ToString("dd.MM")</th>
+                    }
+                    <th class="th-date">Ср. балл</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var student in Model.Students.OrderBy(x => x.Lastname))
+                {
+                    float? avr = 0;
+                    int count = 0;
+                    <tr>
+                        <td>@student.Lastname @student.Firstname[0]. @student.Middlename[0].</td>
+                        @foreach (var clas in Model.Classes)
+                        {
+                            Cell cell = student.Cells.FirstOrDefault(x => x.IdClass == clas.Id);
+                            if (cell != null)
+                            {
+                                if (cell.Type == TypeValue.Оценка)
+                                {
+                                    avr += cell.Value;
+                                    count++;
+                                }
+                                <td onclick="openModal({ url: '/Journal/EditCell', type: 'Cell', id: '@cell.Id' })">
+                                    @CellHelper.Type(cell)
+                                </td>
+                            }
+                            else
+                            {
+                                <td onclick="openModal({ url: '/Journal/EditCell', type: 'Cell', id: '0', idStudent: '@student.Id', idClass: '@clas.Id' })"></td>
+                            }
+                        }
+                        <td>@(count != 0 ? avr / count : "")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal" id="modalCell" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Информация об ячейки</h5>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button class="u-btn" type="button" id="closeCell" data-bs-dismiss="modal">Закрыть</button>
+                <button class="u-btn" type="button" id="removeBtnCell">Убрать</button>
+                <button class="u-btn" type="button" id="editBtnCell">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="modalClass" tabindex="-2">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Информация об паре</h5>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button class="u-btn" type="button" id="closeClass" data-bs-dismiss="modal">Закрыть</button>
+                <button class="u-btn" type="button" id="removeBtnClass">Убрать</button>
+                <button class="u-btn" type="button" id="editBtnClass">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+<script src="~/js/modal.js"></script>
+<script>
+    let modalCell = $('#modalCell');
+    let modalClass = $('#modalClass');
+
+    function modelCell() {
+        const model = {
+            id:$('input#Id').val(),
+            idClass:$('input#IdClass').val(),
+            value: $('input#cellInput').val(),
+            idStudent: $('input#IdStudent').val(),
+            type:$('select#cellType').val()
+        }
+        return model;
+    };
+    function modelClass() {
+        const model = {
+            id:$('input#Id').val(),
+            idObject:$('input#IdObject').val(),
+            idGroup: $('input#IdGroup').val(),
+            date1: $('input#Date1').val(),
+            type:$('select#classType').val()
+        }
+        return model;
+    };
+
+    $('#removeBtnCell').on('click', function () {
+        $.ajax({
+            url: '/Journal/RemoveCell',
+            type: 'POST',
+            data: modelCell(),
+            success: function () {
+                location.reload();
+            }
+        })
+    });
+
+    $('#editBtnCell').on('click', function () {
+        $.ajax({
+            url: '/Journal/EditCell',
+            type: 'POST',
+            data: modelCell(),
+            success: function () {
+                location.reload();
+            }
+        })
+    });
+
+    $('#removeBtnClass').on('click', function () {
+        $.ajax({
+            url: '/Journal/RemoveClass',
+            type: 'POST',
+            data: modelClass(),
+            success: function () {
+                location.reload();
+            }
+        })
+    });
+
+    $('#editBtnClass').on('click', function () {
+        $.ajax({
+            url: '/Journal/EditClass',
+            type: 'POST',
+            data: modelClass(),
+            success: function () {
+                location.reload();
+            }
+        })
+    });
+
+    $("#closeCell").click(function() {
+        modalCell.modal('hide');
+    });
+    $("#closeClass").click(function() {
+        modalClass.modal('hide');
+    });
+
+</script>
+}

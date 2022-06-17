@@ -1,0 +1,45 @@
+﻿@model JIWGrandAlpha.Domain.ViewModels.User.TeacherViewModel
+@{
+    ViewData["Title"] = "Вход для преподавателя";
+}
+<link rel="stylesheet" href="~/css/loginT.css" asp-append-version="true" />
+
+<div class="loginT-back">
+    <form id="loginT" autocomplete="on" method="post" asp-controller="Account" asp-action="LoginT">
+        <h5 class="loginT-h5">Вход для преподавателя</h5>
+
+        <select style="width: 340px;" asp-for="@Model.Id" class="form-control" id="teacherId"></select>
+
+        <input class="loginT-pass" asp-for="Password" placeholder="Пароль">
+
+        <a onclick="submit()" class="u-btn">Войти</a>
+    </form>
+</div>
+
+@section Scripts
+{
+    <script>
+        function submit(parameters) {
+            document.getElementById("loginT").submit();
+        }
+        $('#teacherId').select2({
+            placeholder: "Фамилия И.О.",
+            allowClear: true,
+            ajax: {
+                type: "POST",
+                url: "@Url.Action("GetTeachers","Account")",
+                dataType: "json",
+                processResults: function(result) {
+                    return {
+                        results: $.map(result, function (val, index) {
+                            return {
+                                id: index,
+                                text: val
+                            };
+                        }),
+                    };
+                }
+            }
+        });
+    </script>
+}
